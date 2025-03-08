@@ -40,6 +40,7 @@
     <script>
         let button = document.getElementById("subscribeBtn");
         let isSubscribed = false;
+        let youtubeLink = "https://youtube.com/@robin-999-1?si=5wvb-KeMrWUgmS4z";
 
         button.addEventListener("click", function() {
             if (!isSubscribed) {
@@ -47,6 +48,9 @@
                 button.textContent = "SUBSCRIBED";
                 button.classList.add("subscribed");
                 launchConfetti();
+                setTimeout(() => {
+                    window.location.href = youtubeLink; // Redirect to YouTube
+                }, 1000); // Delay before redirecting
             } else {
                 let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
                 if (confirmUnsub) {
