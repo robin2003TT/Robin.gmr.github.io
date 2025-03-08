@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robin Subscribe</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+        }
+        img {
+            width: 300px; /* Adjust size as needed */
+            border-radius: 10px;
+        }
+        #subscribe-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        #subscribe-btn.subscribed {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Robin Rizz</h1>
+    <img src="Robin.jpeg" alt="Robin Image">
+    
+    <br>
+    
+    <button id="subscribe-btn" onclick="toggleSubscribe()">SUBSCRIBE</button>
+
+    <script>
+        function toggleSubscribe() {
+            let btn = document.getElementById("subscribe-btn");
+
+            if (btn.innerText === "SUBSCRIBE") {
+                btn.innerText = "SUBSCRIBED";
+                btn.classList.add("subscribed");
+                confetti();
+            } else {
+                let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
+                if (confirmUnsub) {
+                    btn.innerText = "SUBSCRIBE";
+                    btn.classList.remove("subscribed");
+                }
+            }
+        }
+
+        function confetti() {
+            let confettiCount = 100;
+            for (let i = 0; i < confettiCount; i++) {
+                let confettiPiece = document.createElement("div");
+                confettiPiece.style.position = "fixed";
+                confettiPiece.style.left = Math.random() * 100 + "vw";
+                confettiPiece.style.top = Math.random() * 100 + "vh";
+                confettiPiece.style.width = "10px";
+                confettiPiece.style.height = "10px";
+                confettiPiece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confettiPiece.style.opacity = "0.8";
+                confettiPiece.style.borderRadius = "50%";
+                confettiPiece.style.animation = "fall 1.5s linear forwards";
+                document.body.appendChild(confettiPiece);
+
+                setTimeout(() => confettiPiece.remove(), 1500);
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+
+</body>
+</html>
