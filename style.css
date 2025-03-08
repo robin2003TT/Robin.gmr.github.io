@@ -1,6 +1,17 @@
 body {
-    background-image: url('images.jpeg'); /* Change to your image file */
-    background-size: cover; /* Covers the whole screen */
-    background-position: center; /* Centers the image */
-    background-attachment: fixed; /* Stays fixed when scrolling */
+    margin: 0;
+    overflow: hidden; /* Prevents scrolling */
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('background.jpg'); /* Change if using images.jpeg */
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px); /* Adjust for more/less blur */
+    z-index: -1; /* Keeps it behind content */
 }
