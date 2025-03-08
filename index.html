@@ -4,49 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subscribe Page</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: white;
-        }
-        img {
-            width: 300px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        button {
-            background-color: red;
-            color: white;
-            font-size: 20px;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        button.subscribed {
-            background-color: gray;
-        }
-        .social {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-        .social a {
-            color: #00a2ff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .social a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css"> <!-- Links the CSS file -->
 </head>
 <body>
+
+    <!-- 🔹 Add this div to create a blurred background -->
+    <div class="background"></div>
+
     <h1>Subscribe Now!</h1>
-    <img src="Robin.jpeg" alt="Robin Image">
+    <img src="images.jpeg" alt="Robin Image">
     <br>
     <button id="subscribeBtn">SUBSCRIBE</button>
 
@@ -125,5 +91,6 @@
             alert(`Copied: ${text}`);
         }
     </script>
+
 </body>
 </html>
