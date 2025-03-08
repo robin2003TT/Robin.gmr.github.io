@@ -1,5 +1,5 @@
 body {
-    background-image: url('images.jpg'); /* Change to your image file */
+    background-image: url('images.jpeg'); /* Change to your image file */
     background-size: cover; /* Covers the whole screen */
     background-position: center; /* Centers the image */
     background-attachment: fixed; /* Stays fixed when scrolling */
