@@ -29,6 +29,18 @@
         button.subscribed {
             background-color: gray;
         }
+        .social {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .social a {
+            color: #00a2ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .social a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +48,11 @@
     <img src="Robin.jpeg" alt="Robin Image">
     <br>
     <button id="subscribeBtn">SUBSCRIBE</button>
+
+    <div class="social">
+        <p>📌 Discord: <a href="#" onclick="copyText('its_me_robin')">its_me_robin</a></p>
+        <p>🎮 Roblox: <a href="#" onclick="copyText('HZGamerPro2000')">HZGamerPro2000</a></p>
+    </div>
 
     <script>
         let button = document.getElementById("subscribeBtn");
@@ -50,7 +67,7 @@
                 launchConfetti();
                 setTimeout(() => {
                     window.location.href = youtubeLink; // Redirect to YouTube
-                }, 1000); // Delay before redirecting
+                }, 500); // 0.5s delay before redirecting
             } else {
                 let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
                 if (confirmUnsub) {
@@ -100,6 +117,11 @@
         function randomColor() {
             let colors = ["#ff0000", "#ff7300", "#ffeb00", "#00ff26", "#00e1ff", "#7d00ff", "#ff00b3"];
             return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert(`Copied: ${text}`);
         }
     </script>
 </body>
