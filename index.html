@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscribe Page</title>
-    <link rel="stylesheet" href="style.css"> <!-- Links the CSS file -->
+    <title> ROBIN'S YOUTUBE</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- 🔹 Add this div to create a blurred background -->
     <div class="background"></div>
 
     <h1>Subscribe Now!</h1>
     <img src="images.jpeg" alt="Robin Image">
     <br>
     <button id="subscribeBtn">SUBSCRIBE</button>
+    <br><br>
+    
+    <!-- 🔹 Like Button and Leaderboard -->
+    <button id="likeBtn">👍 Like (<span id="likeCount">0</span>)</button>
+    <br>
+    <a href="leaderboard.html" class="leaderboard-link">📊 View Leaderboard</a>
 
     <div class="social">
         <p>📌 Discord: <a href="#" onclick="copyText('its_me_robin')">its_me_robin</a></p>
@@ -34,7 +39,7 @@
                 launchConfetti();
                 setTimeout(() => {
                     window.location.href = youtubeLink; // Redirect to YouTube
-                }, 500); // 0.5s delay before redirecting
+                }, 500);
             } else {
                 let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
                 if (confirmUnsub) {
@@ -90,6 +95,23 @@
             navigator.clipboard.writeText(text);
             alert(`Copied: ${text}`);
         }
+
+        // Like Button Functionality
+        let likeBtn = document.getElementById("likeBtn");
+        let likeCount = document.getElementById("likeCount");
+        let username = prompt("Enter your username:");
+
+        let likesData = JSON.parse(localStorage.getItem("likes")) || {};
+
+        if (likesData[username]) {
+            likeCount.textContent = likesData[username];
+        }
+
+        likeBtn.addEventListener("click", function() {
+            likesData[username] = (likesData[username] || 0) + 1;
+            localStorage.setItem("likes", JSON.stringify(likesData));
+            likeCount.textContent = likesData[username];
+        });
     </script>
 
 </body>
