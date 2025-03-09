@@ -6,7 +6,7 @@ body {
     background-size: cover; /* Cover full screen */
     background-position: center; /* Center the image */
     background-attachment: fixed; /* Fixed while scrolling */
-    color: black;
+    color: white;
     position: relative;
     margin: 0;
     padding: 0;
