@@ -5,47 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Robin Rizz</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: white;
-        }
-        img {
-            width: 300px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        button {
-            background-color: red;
-            color: white;
-            font-size: 20px;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        button.subscribed {
-            background-color: blue;
-        }
-        .social {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-        .social a {
-            color: #00a2ff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .social a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-    <h1>Yo Im Robin!</h1>
+    <h1>Yo, I'm Robin!</h1>
     <img src="Robin.jpeg" alt="Robin Image">
     <br>
     <button id="subscribeBtn">SUBSCRIBE</button>
@@ -56,69 +18,61 @@
         <p>📧G-Mail: <a href="#" onclick="copyText('robinrizzyt@gmail.com')">Robin</a></p>
     </div>
 
+    <audio id="bg-music" autoplay>
+        <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Controls -->
+    <div id="music-controls">
+        <button onclick="prevSong()">⏪</button>
+        <span id="music-name">Showreel</span>
+        <button id="music-btn" onclick="toggleMusic()">▶️</button>
+        <button onclick="nextSong()">⏩</button>
+    </div>
+
     <script>
-        let button = document.getElementById("subscribeBtn");
-        let isSubscribed = false;
-        let youtubeLink = "https://youtube.com/@robin-999-1?si=5wvb-KeMrWUgmS4z";
+        let music = document.getElementById("bg-music");
+        let musicBtn = document.getElementById("music-btn");
+        let audioSource = document.getElementById("audio-source");
+        let musicName = document.getElementById("music-name");
 
-        button.addEventListener("click", function() {
-            if (!isSubscribed) {
-                isSubscribed = true;
-                button.textContent = "SUBSCRIBED";
-                button.classList.add("subscribed");
-                launchConfetti();
-                setTimeout(() => {
-                    window.location.href = youtubeLink; // Redirect to YouTube
-                }, 500); // 0.5s delay before redirecting
+        // List of songs (Update song names as needed)
+        let songs = [
+            { name: "Showreel", file: "showreel.mp3" },
+            { name: "Joy", file: "joy.mp3" },
+            { name: "Royalty", file: "Royalty.mp3" },
+            { name: "Love Letter", file: "Love Letter.mp3" }
+        ];
+        
+        let currentSongIndex = 0;
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.textContent = "⏸";
             } else {
-                let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
-                if (confirmUnsub) {
-                    isSubscribed = false;
-                    button.textContent = "SUBSCRIBE";
-                    button.classList.remove("subscribed");
-                }
+                music.pause();
+                musicBtn.textContent = "▶️";
             }
-        });
-
-        function launchConfetti() {
-            const confettiCount = 100;
-            const confettiContainer = document.createElement("div");
-            confettiContainer.style.position = "fixed";
-            confettiContainer.style.top = "0";
-            confettiContainer.style.left = "0";
-            confettiContainer.style.width = "100%";
-            confettiContainer.style.height = "100%";
-            confettiContainer.style.pointerEvents = "none";
-            confettiContainer.style.overflow = "hidden";
-            document.body.appendChild(confettiContainer);
-
-            for (let i = 0; i < confettiCount; i++) {
-                let confetti = document.createElement("div");
-                confetti.style.position = "absolute";
-                confetti.style.width = "10px";
-                confetti.style.height = "10px";
-                confetti.style.backgroundColor = randomColor();
-                confetti.style.top = `${Math.random() * window.innerHeight}px`;
-                confetti.style.left = `${Math.random() * window.innerWidth}px`;
-                confetti.style.opacity = Math.random();
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                confetti.style.transition = "top 2s ease-out, opacity 2s";
-                confettiContainer.appendChild(confetti);
-
-                setTimeout(() => {
-                    confetti.style.top = `${window.innerHeight + 50}px`;
-                    confetti.style.opacity = "0";
-                }, 10);
-            }
-
-            setTimeout(() => {
-                confettiContainer.remove();
-            }, 2000);
         }
 
-        function randomColor() {
-            let colors = ["#ff0000", "#ff7300", "#ffeb00", "#00ff26", "#00e1ff", "#7d00ff", "#ff00b3"];
-            return colors[Math.floor(Math.random() * colors.length)];
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            changeSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            changeSong();
+        }
+
+        function changeSong() {
+            audioSource.src = songs[currentSongIndex].file;
+            musicName.textContent = songs[currentSongIndex].name;
+            music.load();
+            music.play();
+            musicBtn.textContent = "⏸";
         }
 
         function copyText(text) {
@@ -126,51 +80,5 @@
             alert(`Copied: ${text}`);
         }
     </script>
-<audio id="bg-music" autoplay loop>
-    <source id="audio-source" src="song1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-
-<div id="music-controls">
-    <button onclick="prevSong()">⏪</button>
-    <button id="music-btn" onclick="toggleMusic()">▶️</button>
-    <button onclick="nextSong()">⏩</button>
-</div>
-
-<script>
-    let music = document.getElementById("bg-music");
-    let musicBtn = document.getElementById("music-btn");
-    let audioSource = document.getElementById("audio-source");
-
-    // List of songs (Add more songs here)
-    let songs = ["showreel.mp3", "joy.mp3", "Royalty.mp3","Love Letter.mp3"];
-    let currentSongIndex = 0;
-
-    function toggleMusic() {
-        if (music.paused) {
-            music.play();
-            musicBtn.textContent = "⏸";
-        } else {
-            music.pause();
-            musicBtn.textContent = "▶️";
-        }
-    }
-
-    function nextSong() {
-        currentSongIndex = (currentSongIndex + 1) % songs.length;
-        changeSong();
-    }
-
-    function prevSong() {
-        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-        changeSong();
-    }
-
-    function changeSong() {
-        audioSource.src = songs[currentSongIndex];
-        music.load();
-        music.play();
-        musicBtn.textContent = "⏸";
-    }
-</script>
 </body>
+</html>
