@@ -59,3 +59,17 @@ button.subscribed {
 .social a:hover {
     text-decoration: underline;
 }
+
+#music-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
