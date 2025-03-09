@@ -81,12 +81,30 @@ button.subscribed {
     gap: 5px;
 }
 
+}
 #music-controls {
     position: fixed;
     top: 10px;
     left: 10px;
     display: flex;
     gap: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 8px 12px;
+    border-radius: 10px;
+    z-index: 1000; /* Ensures it's above other elements */
+}
+
+#music-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Push the title down so it doesn't get hidden */
+h1 {
+    margin-top: 60px; /* Adjust as needed */
 }
 
     background: rgba(0, 0, 0, 0.7);
