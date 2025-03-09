@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    overflow: hidden;
+    overflow: hidden; /* Prevents scrolling */
     font-family: Arial, sans-serif;
     text-align: center;
     color: white;
@@ -12,11 +12,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('background.jpg');
+    background-image: url('background.jpg'); /* Change if using images.jpeg */
     background-size: cover;
     background-position: center;
-    filter: blur(10px);
-    z-index: -1;
+    filter: blur(10px); /* Adjust for more/less blur */
+    z-index: -1; /* Keeps it behind content */
 }
 
 h1 {
@@ -48,26 +48,19 @@ button.subscribed {
     background-color: gray;
 }
 
-#likeBtn {
-    background-color: blue;
-}
-
-.leaderboard-link {
-    display: block;
-    margin-top: 10px;
+.social {
+    margin-top: 20px;
     font-size: 18px;
-    color: yellow;
+    position: relative;
+    z-index: 1;
 }
 
-table {
-    width: 50%;
-    margin: auto;
-    border-collapse: collapse;
-    background: white;
-    color: black;
+.social a {
+    color: #00a2ff;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid black;
+.social a:hover {
+    text-decoration: underline;
 }
