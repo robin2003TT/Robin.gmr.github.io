@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Robin Rizz</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* General Styles */
         body {
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #111;
-            color: white; /* White text */
+            color: white;
         }
 
-        h1 {
-            margin-top: 60px;
+        #robin-image {
+            width: 150px; /* Smaller Image */
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
-        img {
-            width: 200px;
-            border-radius: 7px;
-            margin-top: 15px;
-        }
-
-        /* Subscribe Button */
         button {
             background-color: red;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             padding: 10px 20px;
             border: none;
             cursor: pointer;
@@ -37,10 +32,9 @@
         }
 
         button.subscribed {
-            background-color: gray;
+            background-color: blue;
         }
 
-        /* Social Links */
         .social {
             margin-top: 20px;
             font-size: 18px;
@@ -56,51 +50,59 @@
             text-decoration: underline;
         }
 
-        /* Music Controls */
+        #see-more {
+            margin-top: 15px;
+            background-color: #007bff;
+        }
+
         #music-controls {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 8px 12px;
+            margin-top: 20px;
+            background-color: black;
+            padding: 10px;
+            display: inline-block;
             border-radius: 10px;
-            z-index: 1000;
         }
 
-        #music-controls button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
+        #progress-bar {
+            width: 100%;
+            height: 5px;
+            background-color: gray;
+            margin: 10px 0;
         }
 
-        #music-name {
-            font-size: 16px;
-            color: white;
-            font-weight: bold;
+        #progress {
+            height: 5px;
+            width: 0%;
+            background-color: red;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            top: 0;
+            opacity: 1;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Yo, I'm Robin!</h1>
-    <img src="Robin.jpeg" alt="Robin Image">
+    <img id="robin-image" src="Robin.jpeg" alt="Robin Image">
     <br>
     <button id="subscribeBtn">SUBSCRIBE</button>
+    <br>
+    <button id="see-more" onclick="location.href='socials.html'">See More</button>
 
-    <div class="social">
-        <p>📌 Discord: <a href="#" onclick="copyText('its_me_robin')">its_me_robin</a></p>
-        <p>🎮 Roblox: <a href="#" onclick="copyText('HZGamerPro2000')">HZGamerPro2000</a></p>
-        <p>🎮 Xbox: <a href="#" onclick="copyText('RobinRizzYT')">RobinRizzYT</a></p>
-        <p>💨 Steam: <a href="#" onclick="copyText('huzaiaprogmr')">huzaiaprogmr</a></p>
-        <p>📧 G-Mail: <a href="#" onclick="copyText('robinrizzyt@gmail.com')">Robin</a></p>
-    </div>
-
-    <audio id="bg-music" autoplay>
+    <audio id="bg-music">
         <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -111,6 +113,18 @@
         <span id="music-name">Showreel</span>
         <button id="music-btn" onclick="toggleMusic()">▶️</button>
         <button onclick="nextSong()">⏩</button>
+
+        <div id="progress-bar" onclick="seek(event)">
+            <div id="progress"></div>
+        </div>
+
+        <label for="speed">Speed:</label>
+        <select id="speed" onchange="changeSpeed()">
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+        </select>
     </div>
 
     <script>
@@ -125,8 +139,8 @@
                 button.classList.add("subscribed");
                 launchConfetti();
                 setTimeout(() => {
-                    window.location.href = youtubeLink; // Redirect to YouTube
-                }, 500); // 0.5s delay before redirecting
+                    window.location.href = youtubeLink;
+                }, 500);
             } else {
                 let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
                 if (confirmUnsub) {
@@ -138,39 +152,18 @@
         });
 
         function launchConfetti() {
-            const confettiCount = 100;
-            const confettiContainer = document.createElement("div");
-            confettiContainer.style.position = "fixed";
-            confettiContainer.style.top = "0";
-            confettiContainer.style.left = "0";
-            confettiContainer.style.width = "100%";
-            confettiContainer.style.height = "100%";
-            confettiContainer.style.pointerEvents = "none";
-            confettiContainer.style.overflow = "hidden";
-            document.body.appendChild(confettiContainer);
-
-            for (let i = 0; i < confettiCount; i++) {
+            for (let i = 0; i < 100; i++) {
                 let confetti = document.createElement("div");
-                confetti.style.position = "absolute";
-                confetti.style.width = "10px";
-                confetti.style.height = "10px";
+                confetti.classList.add("confetti");
                 confetti.style.backgroundColor = randomColor();
-                confetti.style.top = `${Math.random() * window.innerHeight}px`;
-                confetti.style.left = `${Math.random() * window.innerWidth}px`;
-                confetti.style.opacity = Math.random();
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                confetti.style.transition = "top 2s ease-out, opacity 2s";
-                confettiContainer.appendChild(confetti);
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(confetti);
 
                 setTimeout(() => {
-                    confetti.style.top = `${window.innerHeight + 50}px`;
-                    confetti.style.opacity = "0";
-                }, 10);
+                    confetti.remove();
+                }, 3000);
             }
-
-            setTimeout(() => {
-                confettiContainer.remove();
-            }, 2000);
         }
 
         function randomColor() {
@@ -178,26 +171,9 @@
             return colors[Math.floor(Math.random() * colors.length)];
         }
 
-        function copyText(text) {
-            navigator.clipboard.writeText(text);
-            alert(`Copied: ${text}`);
-        }
-
-        let music = document.getElementById("bg-music");
-        let musicBtn = document.getElementById("music-btn");
-        let audioSource = document.getElementById("audio-source");
-        let musicName = document.getElementById("music-name");
-
-        let songs = [
-            { name: "Showreel", file: "showreel.mp3" },
-            { name: "Joy", file: "joy.mp3" },
-            { name: "Royalty", file: "Royalty.mp3" },
-            { name: "Love Letter", file: "Love Letter.mp3" }
-        ];
-        
-        let currentSongIndex = 0;
-
         function toggleMusic() {
+            let music = document.getElementById("bg-music");
+            let musicBtn = document.getElementById("music-btn");
             if (music.paused) {
                 music.play();
                 musicBtn.textContent = "⏸";
@@ -207,22 +183,10 @@
             }
         }
 
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            changeSong();
-        }
-
-        function prevSong() {
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            changeSong();
-        }
-
-        function changeSong() {
-            audioSource.src = songs[currentSongIndex].file;
-            musicName.textContent = songs[currentSongIndex].name;
-            music.load();
-            music.play();
-            musicBtn.textContent = "⏸";
+        function changeSpeed() {
+            let music = document.getElementById("bg-music");
+            let speedSelect = document.getElementById("speed");
+            music.playbackRate = parseFloat(speedSelect.value);
         }
     </script>
 </body>
