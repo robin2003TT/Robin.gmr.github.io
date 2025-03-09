@@ -1,22 +1,11 @@
 body {
-    margin: 0;
-    overflow: hidden; /* Prevents scrolling */
+    background-image: url('background.jpg'); /* Background image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     font-family: Arial, sans-serif;
     text-align: center;
     color: white;
-}
-
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('background.jpg'); /* Change if using images.jpeg */
-    background-size: cover;
-    background-position: center;
-    filter: blur(10px); /* Adjust for more/less blur */
-    z-index: -1; /* Keeps it behind content */
 }
 
 h1 {
@@ -27,8 +16,6 @@ img {
     width: 300px;
     border-radius: 10px;
     margin-top: 20px;
-    position: relative;
-    z-index: 1;
 }
 
 button {
@@ -40,8 +27,6 @@ button {
     cursor: pointer;
     border-radius: 5px;
     margin-top: 20px;
-    position: relative;
-    z-index: 1;
 }
 
 button.subscribed {
@@ -51,8 +36,6 @@ button.subscribed {
 .social {
     margin-top: 20px;
     font-size: 18px;
-    position: relative;
-    z-index: 1;
 }
 
 .social a {
