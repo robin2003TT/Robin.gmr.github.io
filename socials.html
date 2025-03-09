@@ -1,1 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robin's Socials</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+        }
+
+        .social {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .social a {
+            color: #00a2ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .social a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: red;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Robin's Socials</h1>
+
+    <div class="social">
+        <p>📌 Discord: <a href="#" onclick="copyText('its_me_robin')">its_me_robin</a></p>
+        <p>🎮 Roblox: <a href="#" onclick="copyText('HZGamerPro2000')">HZGamerPro2000</a></p>
+        <p>🎮 Xbox: <a href="#" onclick="copyText('RobinRizzYT')">RobinRizzYT</a></p>
+        <p>🎮 Steam: <a href="#" onclick="copyText('huzaiaprogmr')">huzaiaprogmr</a></p>
+        <p>📧 G-Mail: <a href="#" onclick="copyText('robinrizzyt@gmail.com')">Robin</a></p>
+    </div>
+
+    <button onclick="window.history.back()">Go Back</button>
+
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert(`Copied: ${text}`);
+        }
+    </script>
+</body>
+</html>
 
