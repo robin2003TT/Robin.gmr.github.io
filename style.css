@@ -81,22 +81,14 @@ button.subscribed {
     gap: 5px;
 }
 
-#music-controls button {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 18px;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-}
 #music-controls {
     position: fixed;
     top: 10px;
     left: 10px;
     display: flex;
     gap: 10px;
+}
+
     background: rgba(0, 0, 0, 0.7);
     padding: 5px;
     border-radius: 10px;
