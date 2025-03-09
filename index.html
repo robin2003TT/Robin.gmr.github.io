@@ -6,11 +6,16 @@
     <link rel="stylesheet" href="style.css">
     <title>Robin Rizz</title>
     <style>
+        /* General Styles */
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #111; /* Dark background */
+            background-color: #111;
             color: white; /* White text */
+        }
+
+        h1 {
+            margin-top: 60px;
         }
 
         img {
@@ -19,6 +24,7 @@
             margin-top: 20px;
         }
 
+        /* Subscribe Button */
         button {
             background-color: red;
             color: white;
@@ -34,6 +40,7 @@
             background-color: gray;
         }
 
+        /* Social Links */
         .social {
             margin-top: 20px;
             font-size: 18px;
@@ -51,14 +58,30 @@
 
         /* Music Controls */
         #music-controls {
-            margin-top: 20px;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            justify-content: center;
             align-items: center;
             gap: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 12px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+
+        #music-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
 
         #music-name {
+            font-size: 16px;
+            color: white;
             font-weight: bold;
         }
     </style>
@@ -72,10 +95,11 @@
     <div class="social">
         <p>📌 Discord: <a href="#" onclick="copyText('its_me_robin')">its_me_robin</a></p>
         <p>🎮 Roblox: <a href="#" onclick="copyText('HZGamerPro2000')">HZGamerPro2000</a></p>
-        <p>📧G-Mail: <a href="#" onclick="copyText('robinrizzyt@gmail.com')">Robin</a></p>
+        <p>🎮 Xbox: <a href="#" onclick="copyText('RobinRizzYT')">RobinRizzYT</a></p>
+        <p>💨 Steam: <a href="#" onclick="copyText('huzaiaprogmr')">huzaiaprogmr</a></p>
+        <p>📧 G-Mail: <a href="#" onclick="copyText('robinrizzyt@gmail.com')">Robin</a></p>
     </div>
 
-    <!-- Music Player -->
     <audio id="bg-music" autoplay>
         <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -90,21 +114,26 @@
     </div>
 
     <script>
-        let youtubeLink = "https://youtube.com/@robin-999-1?si=92v3PiBmmyZyZchj";
-        let subscribeBtn = document.getElementById("subscribeBtn");
-
+        let button = document.getElementById("subscribeBtn");
         let isSubscribed = false;
+        let youtubeLink = "https://youtube.com/@robin-999-1?si=92v3PiBmmyZyZchj";
 
-        subscribeBtn.addEventListener("click", function() {
+        button.addEventListener("click", function() {
             if (!isSubscribed) {
                 isSubscribed = true;
-                subscribeBtn.textContent = "SUBSCRIBED";
-                subscribeBtn.classList.add("subscribed");
+                button.textContent = "SUBSCRIBED";
+                button.classList.add("subscribed");
                 launchConfetti();
-
                 setTimeout(() => {
                     window.location.href = youtubeLink; // Redirect to YouTube
-                }, 1000);
+                }, 500); // 0.5s delay before redirecting
+            } else {
+                let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
+                if (confirmUnsub) {
+                    isSubscribed = false;
+                    button.textContent = "SUBSCRIBE";
+                    button.classList.remove("subscribed");
+                }
             }
         });
 
