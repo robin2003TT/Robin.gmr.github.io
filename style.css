@@ -1,0 +1,62 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-image: url('images.jpg'); /* Background Image */
+    background-size: cover; /* Cover full screen */
+    background-position: center; /* Center the image */
+    background-attachment: fixed; /* Fixed while scrolling */
+    color: black;
+    position: relative;
+}
+
+/* Semi-transparent overlay to enhance text readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    backdrop-filter: blur(8px); /* Blurs the background */
+    z-index: -1;
+}
+
+/* Image styling */
+img {
+    width: 300px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Subscribe button styling */
+button {
+    background-color: red;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button.subscribed {
+    background-color: gray;
+}
+
+/* Social links styling */
+.social {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.social a {
+    color: #00a2ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.social a:hover {
+    text-decoration: underline;
+}
