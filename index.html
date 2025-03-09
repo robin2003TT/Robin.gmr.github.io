@@ -126,16 +126,25 @@
             alert(`Copied: ${text}`);
         }
     </script>
-    <audio id="bg-music" autoplay loop>
-    <source src="joy.mp3" type="audio/mpeg">
+<audio id="bg-music" autoplay loop>
+    <source id="audio-source" src="song1.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
 
-<button id="music-btn" onclick="toggleMusic()">▶️</button>
+<div id="music-controls">
+    <button onclick="prevSong()">⏪</button>
+    <button id="music-btn" onclick="toggleMusic()">▶</button>
+    <button onclick="nextSong()">⏩</button>
+</div>
 
 <script>
     let music = document.getElementById("bg-music");
     let musicBtn = document.getElementById("music-btn");
+    let audioSource = document.getElementById("audio-source");
+
+    // List of songs (Add more songs here)
+    let songs = ["song1.mp3", "song2.mp3", "song3.mp3"];
+    let currentSongIndex = 0;
 
     function toggleMusic() {
         if (music.paused) {
@@ -143,10 +152,72 @@
             musicBtn.textContent = "⏸";
         } else {
             music.pause();
-            musicBtn.textContent = "▶️";
+            musicBtn.textContent = "▶";
         }
     }
+
+    function nextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        changeSong();
+    }
+
+    function prevSong() {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+        changeSong();
+    }
+
+    function changeSong() {
+        audioSource.src = songs[currentSongIndex];
+        music.load();
+        music.play();
+        musicBtn.textContent = "⏸";
+    }
 </script>
-    
-</body>
-</html>
+   <audio id="bg-music" autoplay loop>
+    <source id="audio-source" src="song1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+<div id="music-controls">
+    <button onclick="prevSong()">⏪</button>
+    <button id="music-btn" onclick="toggleMusic()">▶</button>
+    <button onclick="nextSong()">⏩</button>
+</div>
+
+<script>
+    let music = document.getElementById("bg-music");
+    let musicBtn = document.getElementById("music-btn");
+    let audioSource = document.getElementById("audio-source");
+
+    // List of songs (Add more songs here)
+    let songs = ["song1.mp3", "song2.mp3", "song3.mp3"];
+    let currentSongIndex = 0;
+
+    function toggleMusic() {
+        if (music.paused) {
+            music.play();
+            musicBtn.textContent = "⏸";
+        } else {
+            music.pause();
+            musicBtn.textContent = "▶";
+        }
+    }
+
+    function nextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        changeSong();
+    }
+
+    function prevSong() {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+        changeSong();
+    }
+
+    function changeSong() {
+        audioSource.src = songs[currentSongIndex];
+        music.load();
+        music.play();
+        musicBtn.textContent = "⏸";
+    }
+</script>
+ 
