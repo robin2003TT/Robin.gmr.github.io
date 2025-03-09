@@ -13,13 +13,13 @@
     <br>
 
     <button id="subscribeBtn">SUBSCRIBE</button>
-    <button onclick="openSocials()">SOCIALS</button>
+    <button id="socialsBtn" onclick="openSocials()">SOCIALS</button>
 
     <!-- Confetti Container -->
     <div id="confetti-container"></div>
 
     <!-- Music Player -->
-    <audio id="bg-music" autoplay>
+    <audio id="bg-music" autoplay loop>
         <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -54,7 +54,8 @@
             { name: "Love Letter", file: "Love Letter.mp3" }
         ];
 
-        let currentSongIndex = 0;
+        let currentSongIndex = sessionStorage.getItem("musicIndex") ? parseInt(sessionStorage.getItem("musicIndex")) : 0;
+        let savedSpeed = sessionStorage.getItem("musicSpeed") ? parseFloat(sessionStorage.getItem("musicSpeed")) : 1;
 
         function toggleMusic() {
             if (music.paused) {
@@ -85,7 +86,9 @@
         }
 
         function changeSpeed() {
-            music.playbackRate = parseFloat(speedControl.value);
+            let speed = parseFloat(speedControl.value);
+            music.playbackRate = speed;
+            sessionStorage.setItem("musicSpeed", speed);
         }
 
         music.addEventListener("timeupdate", function () {
@@ -103,10 +106,8 @@
         }
 
         function launchConfetti() {
-            const confettiCount = 100;
-            const confettiContainer = document.getElementById("confetti-container");
-
-            for (let i = 0; i < confettiCount; i++) {
+            let confettiContainer = document.getElementById("confetti-container");
+            for (let i = 0; i < 100; i++) {
                 let confetti = document.createElement("div");
                 confetti.classList.add("confetti");
                 confetti.style.left = Math.random() * 100 + "vw";
@@ -139,10 +140,12 @@
         window.onload = function () {
             if (sessionStorage.getItem("musicTime")) {
                 music.currentTime = sessionStorage.getItem("musicTime");
-                currentSongIndex = sessionStorage.getItem("musicIndex");
                 changeSong();
             }
+            music.playbackRate = savedSpeed;
+            speedControl.value = savedSpeed;
         };
     </script>
 </body>
 </html>
+
