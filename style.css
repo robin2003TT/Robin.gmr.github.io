@@ -91,3 +91,21 @@ button.subscribed {
     height: 40px;
     cursor: pointer;
 }
+#music-controls {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#music-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
