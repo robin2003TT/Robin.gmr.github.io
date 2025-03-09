@@ -1,49 +1,28 @@
 body {
     text-align: center;
     font-family: Arial, sans-serif;
-    background-color: #111;
+    background-image: url('images (1).jpeg');
+    background-size: cover;
+    background-position: center;
     color: white;
 }
 
 img#profile-pic {
-    width: 200px; /* Smaller size */
+    width: 200px;
     border-radius: 10px;
     margin-top: 20px;
 }
 
-button {
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
     background-color: red;
-    color: white;
-    font-size: 18px;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
+    opacity: 0.7;
+    animation: fall linear infinite;
 }
 
-button:hover {
-    background-color: darkred;
-}
-
-.social-links a {
-    color: #00a2ff; /* Blue color for socials */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.social-links a:hover {
-    text-decoration: underline;
-}
-
-#music-controls {
-    margin-top: 20px;
-}
-
-#music-progress {
-    width: 100px;
-}
-
-#speed-control {
-    margin-left: 10px;
+@keyframes fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
 }
