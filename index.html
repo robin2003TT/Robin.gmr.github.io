@@ -5,6 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Robin Rizz</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #111; /* Dark background */
+            color: white; /* White text */
+        }
+
+        img {
+            width: 300px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button.subscribed {
+            background-color: gray;
+        }
+
+        .social {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .social a {
+            color: #00a2ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .social a:hover {
+            text-decoration: underline;
+        }
+
+        /* Music Controls */
+        #music-controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #music-name {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h1>Yo, I'm Robin!</h1>
@@ -18,6 +75,7 @@
         <p>📧G-Mail: <a href="#" onclick="copyText('robinrizzyt@gmail.com')">Robin</a></p>
     </div>
 
+    <!-- Music Player -->
     <audio id="bg-music" autoplay>
         <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -32,12 +90,75 @@
     </div>
 
     <script>
+        let youtubeLink = "https://youtube.com/@robin-999-1?si=92v3PiBmmyZyZchj";
+        let subscribeBtn = document.getElementById("subscribeBtn");
+
+        let isSubscribed = false;
+
+        subscribeBtn.addEventListener("click", function() {
+            if (!isSubscribed) {
+                isSubscribed = true;
+                subscribeBtn.textContent = "SUBSCRIBED";
+                subscribeBtn.classList.add("subscribed");
+                launchConfetti();
+
+                setTimeout(() => {
+                    window.location.href = youtubeLink; // Redirect to YouTube
+                }, 1000);
+            }
+        });
+
+        function launchConfetti() {
+            const confettiCount = 100;
+            const confettiContainer = document.createElement("div");
+            confettiContainer.style.position = "fixed";
+            confettiContainer.style.top = "0";
+            confettiContainer.style.left = "0";
+            confettiContainer.style.width = "100%";
+            confettiContainer.style.height = "100%";
+            confettiContainer.style.pointerEvents = "none";
+            confettiContainer.style.overflow = "hidden";
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < confettiCount; i++) {
+                let confetti = document.createElement("div");
+                confetti.style.position = "absolute";
+                confetti.style.width = "10px";
+                confetti.style.height = "10px";
+                confetti.style.backgroundColor = randomColor();
+                confetti.style.top = `${Math.random() * window.innerHeight}px`;
+                confetti.style.left = `${Math.random() * window.innerWidth}px`;
+                confetti.style.opacity = Math.random();
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.transition = "top 2s ease-out, opacity 2s";
+                confettiContainer.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.style.top = `${window.innerHeight + 50}px`;
+                    confetti.style.opacity = "0";
+                }, 10);
+            }
+
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 2000);
+        }
+
+        function randomColor() {
+            let colors = ["#ff0000", "#ff7300", "#ffeb00", "#00ff26", "#00e1ff", "#7d00ff", "#ff00b3"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            alert(`Copied: ${text}`);
+        }
+
         let music = document.getElementById("bg-music");
         let musicBtn = document.getElementById("music-btn");
         let audioSource = document.getElementById("audio-source");
         let musicName = document.getElementById("music-name");
 
-        // List of songs (Update song names as needed)
         let songs = [
             { name: "Showreel", file: "showreel.mp3" },
             { name: "Joy", file: "joy.mp3" },
@@ -73,11 +194,6 @@
             music.load();
             music.play();
             musicBtn.textContent = "⏸";
-        }
-
-        function copyText(text) {
-            navigator.clipboard.writeText(text);
-            alert(`Copied: ${text}`);
         }
     </script>
 </body>
