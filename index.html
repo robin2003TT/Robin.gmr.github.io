@@ -9,11 +9,14 @@
 <body>
     <h1>Yo, I'm Robin!</h1>
     
-    <img src="Robin.jpeg" alt="Robin Image" id="profile-pic">
+    <img src="images (1).jpeg" alt="Robin Image" id="profile-pic">
     <br>
 
     <button id="subscribeBtn">SUBSCRIBE</button>
     <button onclick="openSocials()">SOCIALS</button>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
 
     <!-- Music Player -->
     <audio id="bg-music" autoplay>
@@ -42,6 +45,7 @@
         let musicName = document.getElementById("music-name");
         let progressBar = document.getElementById("music-progress");
         let speedControl = document.getElementById("speed-control");
+        let subscribeBtn = document.getElementById("subscribeBtn");
 
         let songs = [
             { name: "Showreel", file: "showreel.mp3" },
@@ -93,8 +97,52 @@
         });
 
         function openSocials() {
+            sessionStorage.setItem("musicTime", music.currentTime);
+            sessionStorage.setItem("musicIndex", currentSongIndex);
             window.location.href = "socials.html";
         }
+
+        function launchConfetti() {
+            const confettiCount = 100;
+            const confettiContainer = document.getElementById("confetti-container");
+
+            for (let i = 0; i < confettiCount; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                confettiContainer.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                confettiContainer.innerHTML = "";
+            }, 3000);
+        }
+
+        subscribeBtn.addEventListener("click", function () {
+            if (subscribeBtn.textContent === "SUBSCRIBE") {
+                subscribeBtn.textContent = "SUBSCRIBED";
+                subscribeBtn.style.backgroundColor = "blue";
+                launchConfetti();
+                setTimeout(() => {
+                    window.location.href = "https://youtube.com/@robin-999-1?si=92v3PiBmmyZyZchj";
+                }, 500);
+            } else {
+                let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
+                if (confirmUnsub) {
+                    subscribeBtn.textContent = "SUBSCRIBE";
+                    subscribeBtn.style.backgroundColor = "red";
+                }
+            }
+        });
+
+        window.onload = function () {
+            if (sessionStorage.getItem("musicTime")) {
+                music.currentTime = sessionStorage.getItem("musicTime");
+                currentSongIndex = sessionStorage.getItem("musicIndex");
+                changeSong();
+            }
+        };
     </script>
 </body>
 </html>
