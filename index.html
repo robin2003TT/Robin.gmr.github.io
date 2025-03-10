@@ -128,7 +128,7 @@
             if (subscribeBtn.textContent === "SUBSCRIBE") {
                 subscribeBtn.textContent = "SUBSCRIBED";
                 subscribeBtn.style.backgroundColor = "blue";
-                launchConfetti();
+                launchConfetti();  // Confetti launched when clicked
                 setTimeout(() => {
                     window.location.href = "https://youtube.com/@robin-999-1?si=92v3PiBmmyZyZchj";
                 }, 500);
@@ -149,16 +149,13 @@
             music.playbackRate = savedSpeed;
             speedControl.value = savedSpeed;
         };
+
+        function openGame() {
+            sessionStorage.setItem("musicTime", music.currentTime);
+            sessionStorage.setItem("musicIndex", currentSongIndex);
+            window.location.href = "game.html";
+        }
     </script>
     <button id="playBtn" onclick="openGame()">PLAY ▶️</button>
-
-<script>
-    function openGame() {
-        sessionStorage.setItem("musicTime", music.currentTime);
-        sessionStorage.setItem("musicIndex", currentSongIndex);
-        window.location.href = "game.html";
-    }
-</script>
-</body>
+</body> 
 </html>
-
