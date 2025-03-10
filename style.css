@@ -1,20 +1,54 @@
 body {
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-image: url('images (1).jpeg');
     background-size: cover;
     background-position: center;
     color: white;
 }
 
-button#socialsBtn {
+#subscribeBtn {
+    background-color: red;
+    color: white;
+    font-size: 24px; /* Bigger font */
+    padding: 15px 30px; /* Larger padding */
+    font-weight: bold; /* Bold text */
+    text-transform: uppercase; /* Uppercase text */
+    border: none;
+    cursor: pointer;
+    border-radius: 10px; /* Rounded corners */
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+#subscribeBtn:hover {
+    background-color: darkred;
+}
+
+#subscribeBtn.subscribed {
+    background-color: blue !important;
+}
+
+#socialsBtn {
     background-color: blue;
     color: white;
     font-size: 20px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 36px; /* Bigger heading */
+    font-weight: bold;
+}
+
+img {
+    width: 250px; /* Smaller image */
+    border-radius: 10px;
     margin-top: 20px;
 }
 
