@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robin Rizz</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Confetti container styles */
+        #confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Individual confetti style */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d4d;
+            opacity: 0.8;
+            animation: fall 3s infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Button and controls styles */
+        #music-controls {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        /* Ensuring buttons appear correctly */
+        #music-controls button, #subscribeBtn, #socialsBtn, #playBtn {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yo, I'm Robin!</h1>
+    
+    <img src="Robin.jpeg" alt="Robin Image" id="profile-pic">
+    <br>
+
+    <button id="subscribeBtn">SUBSCRIBE</button>
+    <button id="socialsBtn" onclick="openSocials()">SOCIALS</button>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
+
+    <!-- Music Player -->
+    <audio id="bg-music" autoplay loop>
+        <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="music-controls">
+        <button onclick="prevSong()">⏪</button>
+        <span id="music-name">Showreel</span>
+        <button id="music-btn" onclick="toggleMusic()">▶️</button>
+        <button onclick="nextSong()">⏩</button>
+        <input type="range" id="music-progress" value="0" step="1">
+        <select id="speed-control" onchange="changeSpeed()">
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+        </select>
+    </div>
+
+    <script>
+        let music = document.getElementById("bg-music");
+        let musicBtn = document.getElementById("music-btn");
+        let audioSource = document.getElementById("audio-source");
+        let musicName = document.getElementById("music-name");
+        let progressBar = document.getElementById("music-progress");
+        let speedControl = document.getElementById("speed-control");
+        let subscribeBtn = document.getElementById("subscribeBtn");
+
+        let songs = [
+            { name: "Showreel", file: "showreel.mp3" },
+            { name: "Joy", file: "joy.mp3" },
+            { name: "Royalty", file: "Royalty.mp3" },
+            { name: "Love Letter", file: "Love Letter.mp3" },
+            { name: "Let's Go", file: "Lets Go.mp3" },
+            { name: "BUSSIN'", file: "BUSSIN'.mp3" },
+            { name: "Gang", file: "Gang.mp3" },
+            { name: "Real Good Liar", file: "Real Good Liar.mp3" },
+        ];
+
+        let currentSongIndex = sessionStorage.getItem("musicIndex") ? parseInt(sessionStorage.getItem("musicIndex")) : 0;
+        let savedSpeed = sessionStorage.getItem("musicSpeed") ? parseFloat(sessionStorage.getItem("musicSpeed")) : 1;
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.textContent = "⏸";
+            } else {
+                music.pause();
+                musicBtn.textContent = "▶️";
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            changeSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            changeSong();
+        }
+
+        function changeSong() {
+            audioSource.src = songs[currentSongIndex].file;
+            musicName.textContent = songs[currentSongIndex].name;
+            music.load();
+            music.play();
+            musicBtn.textContent = "⏸";
+        }
+
+        function changeSpeed() {
+            let speed = parseFloat(speedControl.value);
+            music.playbackRate = speed;
+            sessionStorage.setItem("musicSpeed", speed);
+        }
+
+        music.addEventListener("timeupdate", function () {
+            progressBar.value = (music.currentTime / music.duration) * 100;
+        });
+
+        progressBar.addEventListener("input", function () {
+            music.currentTime = (progressBar.value / 100) * music.duration;
+        });
+
+        function openSocials() {
+            sessionStorage.setItem("musicTime", music.currentTime);
+            sessionStorage.setItem("musicIndex", currentSongIndex);
+            window.location.href = "socials.html";
+        }
+
+        function launchConfetti() {
+            let confettiContainer = document.getElementById("confetti-container");
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                confettiContainer.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                confettiContainer.innerHTML = "";
+            }, 3000);
+        }
+
+        subscribeBtn.addEventListener("click", function () {
+            if (subscribeBtn.textContent === "SUBSCRIBE") {
+                subscribeBtn.textContent = "SUBSCRIBED";
+                subscribeBtn.style.backgroundColor = "blue";
+                launchConfetti();  // Confetti launched when clicked
+                setTimeout(() => {
+                    window.location.href = "https://youtube.com/@robin-999-1?si=92v3PiBmmyZyZchj";
+                }, 500);
+            } else {
+                let confirmUnsub = confirm("Are you sure you want to unsubscribe?");
+                if (confirmUnsub) {
+                    subscribeBtn.textContent = "SUBSCRIBE";
+                    subscribeBtn.style.backgroundColor = "red";
+                }
+            }
+        });
+
+        window.onload = function () {
+            if (sessionStorage.getItem("musicTime")) {
+                music.currentTime = sessionStorage.getItem("musicTime");
+                changeSong();
+            }
+            music.playbackRate = savedSpeed;
+            speedControl.value = savedSpeed;
+        };
+
+        function openGame() {
+            sessionStorage.setItem("musicTime", music.currentTime);
+            sessionStorage.setItem("musicIndex", currentSongIndex);
+            window.location.href = "game.html";
+        }
+    </script>
+    <button id="playBtn" onclick="openGame()">PLAY ▶️</button>
+</body> 
+</html>
