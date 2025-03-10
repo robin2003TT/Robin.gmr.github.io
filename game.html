@@ -3,145 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game - Robin Rizz</title>
+    <title>Robin's Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🎮 Welcome to the Game! 🎮</h1>
-
-    <!-- Music System (Same as Main Page) -->
-    <audio id="bg-music" autoplay loop>
-        <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <div id="music-controls">
-        <button onclick="prevSong()">⏪</button>
-        <span id="music-name">Showreel</span>
-        <button id="music-btn" onclick="toggleMusic()">▶️</button>
-        <button onclick="nextSong()">⏩</button>
-        <input type="range" id="music-progress" value="0" step="1">
-        <select id="speed-control" onchange="changeSpeed()">
-            <option value="0.5">0.5x</option>
-            <option value="1" selected>1x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
-        </select>
+    <h1>Catch the Good Food! 🍕</h1>
+    
+    <div id="game-container">
+        <div id="player">🤤</div>
+        <div id="falling-items"></div>
     </div>
 
-    <!-- The Game Area -->
-    <canvas id="gameCanvas"></canvas>
+    <button id="leftBtn">◀️</button>
+    <button id="rightBtn">▶️</button>
+
+    <p>Score: <span id="score">0</span></p>
+    <p>Lives: <span id="lives">❤️❤️❤️</span></p>
+    <p>Level: <span id="level">1</span></p>
 
     <script>
-        let music = document.getElementById("bg-music");
-        let musicBtn = document.getElementById("music-btn");
-        let audioSource = document.getElementById("audio-source");
-        let musicName = document.getElementById("music-name");
-        let progressBar = document.getElementById("music-progress");
-        let speedControl = document.getElementById("speed-control");
+        let player = document.getElementById("player");
+        let fallingItems = document.getElementById("falling-items");
+        let scoreDisplay = document.getElementById("score");
+        let livesDisplay = document.getElementById("lives");
+        let levelDisplay = document.getElementById("level");
+        let leftBtn = document.getElementById("leftBtn");
+        let rightBtn = document.getElementById("rightBtn");
 
-        let songs = [
-            { name: "Showreel", file: "showreel.mp3" },
-            { name: "Joy", file: "joy.mp3" },
-            { name: "Royalty", file: "Royalty.mp3" }
-        ];
+        let playerPos = 50; 
+        let score = 0;
+        let lives = 3;
+        let level = 1;
+        let playerName = prompt("Enter your name:");
 
-        let currentSongIndex = sessionStorage.getItem("musicIndex") ? parseInt(sessionStorage.getItem("musicIndex")) : 0;
-        let savedSpeed = sessionStorage.getItem("musicSpeed") ? parseFloat(sessionStorage.getItem("musicSpeed")) : 1;
+        const goodItems = ["🍑", "🍕", "🌽", "🌾", "🍗", "🌮", "🍡", "🍝", "🍚", "🍮", "🍲", "🍢", "🥝", "🍴", "🥔"];
+        const badItems = ["💀", "☠️", "👻", "💩", "🎃"];
+        const lifeItem = "❤️";
 
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                musicBtn.textContent = "⏸";
-            } else {
-                music.pause();
-                musicBtn.textContent = "▶️";
+        function movePlayer(dir) {
+            if (dir === "left" && playerPos > 0) {
+                playerPos -= 10;
+            } else if (dir === "right" && playerPos < 90) {
+                playerPos += 10;
+            }
+            player.style.left = playerPos + "%";
+        }
+
+        leftBtn.addEventListener("click", () => movePlayer("left"));
+        rightBtn.addEventListener("click", () => movePlayer("right"));
+
+        function dropItem() {
+            let item = document.createElement("div");
+            item.classList.add("falling-item");
+            item.innerHTML = Math.random() < 0.85 ? (Math.random() < 0.9 ? getRandom(goodItems) : lifeItem) : getRandom(badItems);
+            item.style.left = Math.random() * 90 + "%";
+            fallingItems.appendChild(item);
+
+            let fallInterval = setInterval(() => {
+                let itemTop = parseInt(item.style.top || 0);
+                item.style.top = itemTop + 5 + "px";
+
+                if (itemTop > 80) {
+                    let itemLeft = parseInt(item.style.left);
+                    if (itemLeft > playerPos - 10 && itemLeft < playerPos + 10) {
+                        if (goodItems.includes(item.innerHTML)) {
+                            score++;
+                        } else if (item.innerHTML === lifeItem) {
+                            lives++;
+                        } else {
+                            lives--;
+                        }
+                        item.remove();
+                        updateScore();
+                        clearInterval(fallInterval);
+                    }
+                }
+
+                if (itemTop > 90) {
+                    item.remove();
+                    clearInterval(fallInterval);
+                }
+            }, 200);
+        }
+
+        function updateScore() {
+            scoreDisplay.textContent = score;
+            livesDisplay.textContent = "❤️".repeat(lives);
+            levelDisplay.textContent = Math.floor(score / 100) + 1;
+            if (lives <= 0) {
+                alert(`${playerName}, Game Over! You reached Level ${level}.`);
+                saveToLeaderboard();
+                resetGame();
             }
         }
 
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            changeSong();
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        function prevSong() {
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            changeSong();
+        function saveToLeaderboard() {
+            let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+            leaderboard.push({ name: playerName, score: score, level: level });
+            leaderboard.sort((a, b) => b.score - a.score);
+            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
         }
 
-        function changeSong() {
-            audioSource.src = songs[currentSongIndex].file;
-            musicName.textContent = songs[currentSongIndex].name;
-            music.load();
-            music.play();
-            musicBtn.textContent = "⏸";
+        function resetGame() {
+            score = 0;
+            lives = 3;
+            level = 1;
+            updateScore();
         }
 
-        function changeSpeed() {
-            let speed = parseFloat(speedControl.value);
-            music.playbackRate = speed;
-            sessionStorage.setItem("musicSpeed", speed);
-        }
-
-        music.addEventListener("timeupdate", function () {
-            progressBar.value = (music.currentTime / music.duration) * 100;
-        });
-
-        progressBar.addEventListener("input", function () {
-            music.currentTime = (progressBar.value / 100) * music.duration;
-        });
-
-        window.onload = function () {
-            if (sessionStorage.getItem("musicTime")) {
-                music.currentTime = sessionStorage.getItem("musicTime");
-                changeSong();
-            }
-            music.playbackRate = savedSpeed;
-            speedControl.value = savedSpeed;
-        };
-
-        /** 🎮 Simple Game (Ball Bounce) **/
-        let canvas = document.getElementById("gameCanvas");
-        let ctx = canvas.getContext("2d");
-
-        canvas.width = 600;
-        canvas.height = 400;
-
-        let ball = {
-            x: 300,
-            y: 200,
-            radius: 15,
-            dx: 4,
-            dy: 4
-        };
-
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = "red";
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function updateGame() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-
-            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
-                ball.dx *= -1;
-            }
-            if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
-                ball.dy *= -1;
-            }
-
-            drawBall();
-            requestAnimationFrame(updateGame);
-        }
-
-        updateGame();
+        setInterval(dropItem, 1000);
     </script>
 </body>
-  </html>
-  
+</html>
