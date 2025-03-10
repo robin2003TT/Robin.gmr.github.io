@@ -3,119 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robin's Game</title>
+    <title>Food Catch Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Catch the Good Food! 🍕</h1>
+    <h1>🍕 Catch The Food! 🍗</h1>
     
     <div id="game-container">
         <div id="player">🤤</div>
-        <div id="falling-items"></div>
     </div>
 
-    <button id="leftBtn">◀️</button>
-    <button id="rightBtn">▶️</button>
+    <div id="controls">
+        <button id="leftBtn">◀️</button>
+        <button id="rightBtn">▶️</button>
+    </div>
 
-    <p>Score: <span id="score">0</span></p>
-    <p>Lives: <span id="lives">❤️❤️❤️</span></p>
-    <p>Level: <span id="level">1</span></p>
+    <p>Score: <span id="score">0</span> | Lives: <span id="lives">3 ❤️</span></p>
 
-    <script>
-        let player = document.getElementById("player");
-        let fallingItems = document.getElementById("falling-items");
-        let scoreDisplay = document.getElementById("score");
-        let livesDisplay = document.getElementById("lives");
-        let levelDisplay = document.getElementById("level");
-        let leftBtn = document.getElementById("leftBtn");
-        let rightBtn = document.getElementById("rightBtn");
+    <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <div id="leaderboard-list"></div>
+    </div>
 
-        let playerPos = 50; 
-        let score = 0;
-        let lives = 3;
-        let level = 1;
-        let playerName = prompt("Enter your name:");
-
-        const goodItems = ["🍑", "🍕", "🌽", "🌾", "🍗", "🌮", "🍡", "🍝", "🍚", "🍮", "🍲", "🍢", "🥝", "🍴", "🥔"];
-        const badItems = ["💀", "☠️", "👻", "💩", "🎃"];
-        const lifeItem = "❤️";
-
-        function movePlayer(dir) {
-            if (dir === "left" && playerPos > 0) {
-                playerPos -= 10;
-            } else if (dir === "right" && playerPos < 90) {
-                playerPos += 10;
-            }
-            player.style.left = playerPos + "%";
-        }
-
-        leftBtn.addEventListener("click", () => movePlayer("left"));
-        rightBtn.addEventListener("click", () => movePlayer("right"));
-
-        function dropItem() {
-            let item = document.createElement("div");
-            item.classList.add("falling-item");
-            item.innerHTML = Math.random() < 0.85 ? (Math.random() < 0.9 ? getRandom(goodItems) : lifeItem) : getRandom(badItems);
-            item.style.left = Math.random() * 90 + "%";
-            fallingItems.appendChild(item);
-
-            let fallInterval = setInterval(() => {
-                let itemTop = parseInt(item.style.top || 0);
-                item.style.top = itemTop + 5 + "px";
-
-                if (itemTop > 80) {
-                    let itemLeft = parseInt(item.style.left);
-                    if (itemLeft > playerPos - 10 && itemLeft < playerPos + 10) {
-                        if (goodItems.includes(item.innerHTML)) {
-                            score++;
-                        } else if (item.innerHTML === lifeItem) {
-                            lives++;
-                        } else {
-                            lives--;
-                        }
-                        item.remove();
-                        updateScore();
-                        clearInterval(fallInterval);
-                    }
-                }
-
-                if (itemTop > 90) {
-                    item.remove();
-                    clearInterval(fallInterval);
-                }
-            }, 200);
-        }
-
-        function updateScore() {
-            scoreDisplay.textContent = score;
-            livesDisplay.textContent = "❤️".repeat(lives);
-            levelDisplay.textContent = Math.floor(score / 100) + 1;
-            if (lives <= 0) {
-                alert(`${playerName}, Game Over! You reached Level ${level}.`);
-                saveToLeaderboard();
-                resetGame();
-            }
-        }
-
-        function getRandom(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
-        }
-
-        function saveToLeaderboard() {
-            let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
-            leaderboard.push({ name: playerName, score: score, level: level });
-            leaderboard.sort((a, b) => b.score - a.score);
-            localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-        }
-
-        function resetGame() {
-            score = 0;
-            lives = 3;
-            level = 1;
-            updateScore();
-        }
-
-        setInterval(dropItem, 1000);
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
