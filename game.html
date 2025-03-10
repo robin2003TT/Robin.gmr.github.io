@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game - Robin Rizz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>🎮 Welcome to the Game! 🎮</h1>
+
+    <!-- Music System (Same as Main Page) -->
+    <audio id="bg-music" autoplay loop>
+        <source id="audio-source" src="showreel.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="music-controls">
+        <button onclick="prevSong()">⏪</button>
+        <span id="music-name">Showreel</span>
+        <button id="music-btn" onclick="toggleMusic()">▶️</button>
+        <button onclick="nextSong()">⏩</button>
+        <input type="range" id="music-progress" value="0" step="1">
+        <select id="speed-control" onchange="changeSpeed()">
+            <option value="0.5">0.5x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+        </select>
+    </div>
+
+    <!-- The Game Area -->
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        let music = document.getElementById("bg-music");
+        let musicBtn = document.getElementById("music-btn");
+        let audioSource = document.getElementById("audio-source");
+        let musicName = document.getElementById("music-name");
+        let progressBar = document.getElementById("music-progress");
+        let speedControl = document.getElementById("speed-control");
+
+        let songs = [
+            { name: "Showreel", file: "showreel.mp3" },
+            { name: "Joy", file: "joy.mp3" },
+            { name: "Royalty", file: "Royalty.mp3" }
+        ];
+
+        let currentSongIndex = sessionStorage.getItem("musicIndex") ? parseInt(sessionStorage.getItem("musicIndex")) : 0;
+        let savedSpeed = sessionStorage.getItem("musicSpeed") ? parseFloat(sessionStorage.getItem("musicSpeed")) : 1;
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.textContent = "⏸";
+            } else {
+                music.pause();
+                musicBtn.textContent = "▶️";
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            changeSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            changeSong();
+        }
+
+        function changeSong() {
+            audioSource.src = songs[currentSongIndex].file;
+            musicName.textContent = songs[currentSongIndex].name;
+            music.load();
+            music.play();
+            musicBtn.textContent = "⏸";
+        }
+
+        function changeSpeed() {
+            let speed = parseFloat(speedControl.value);
+            music.playbackRate = speed;
+            sessionStorage.setItem("musicSpeed", speed);
+        }
+
+        music.addEventListener("timeupdate", function () {
+            progressBar.value = (music.currentTime / music.duration) * 100;
+        });
+
+        progressBar.addEventListener("input", function () {
+            music.currentTime = (progressBar.value / 100) * music.duration;
+        });
+
+        window.onload = function () {
+            if (sessionStorage.getItem("musicTime")) {
+                music.currentTime = sessionStorage.getItem("musicTime");
+                changeSong();
+            }
+            music.playbackRate = savedSpeed;
+            speedControl.value = savedSpeed;
+        };
+
+        /** 🎮 Simple Game (Ball Bounce) **/
+        let canvas = document.getElementById("gameCanvas");
+        let ctx = canvas.getContext("2d");
+
+        canvas.width = 600;
+        canvas.height = 400;
+
+        let ball = {
+            x: 300,
+            y: 200,
+            radius: 15,
+            dx: 4,
+            dy: 4
+        };
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+                ball.dx *= -1;
+            }
+            if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+                ball.dy *= -1;
+            }
+
+            drawBall();
+            requestAnimationFrame(updateGame);
+        }
+
+        updateGame();
+    </script>
+</body>
+  </html>
+  
