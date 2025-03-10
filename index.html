@@ -150,6 +150,15 @@
             speedControl.value = savedSpeed;
         };
     </script>
+    <button id="playBtn" onclick="openGame()">PLAY ▶️</button>
+
+<script>
+    function openGame() {
+        sessionStorage.setItem("musicTime", music.currentTime);
+        sessionStorage.setItem("musicIndex", currentSongIndex);
+        window.location.href = "game.html";
+    }
+</script>
 </body>
 </html>
 
