@@ -7,23 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🍕 Catch The Food! 🍗</h1>
+    <button id="backBtn" onclick="goBack()">🔙 Back</button>
+    <h1>Food Catch Game</h1>
+    <canvas id="gameCanvas"></canvas>
     
-    <div id="game-container">
-        <div id="player">🤤</div>
-    </div>
-
-    <div id="controls">
-        <button id="leftBtn">◀️</button>
-        <button id="rightBtn">▶️</button>
-    </div>
-
-    <p>Score: <span id="score">0</span> | Lives: <span id="lives">3 ❤️</span></p>
-
     <div id="leaderboard">
         <h2>Leaderboard</h2>
-        <div id="leaderboard-list"></div>
+        <ul id="leaderboard-list"></ul>
     </div>
+
+    <audio id="bg-music" autoplay loop>
+        <source src="game-music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script src="game.js"></script>
 </body>
