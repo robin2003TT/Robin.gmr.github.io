@@ -9,26 +9,28 @@
 <body>
     <button id="backBtn" onclick="goBack()">🔙 Back</button>
     <h1>Food Catch Game</h1>
-
-    <div id="game-container">
-        <div id="player">🤤</div>
-    </div>
-
-    <!-- Game Movement Controls -->
-    <button id="leftBtn">◀️</button>
-    <button id="rightBtn">▶️</button>
-
-    <!-- Leaderboard -->
+    <canvas id="gameCanvas"></canvas>
+    
     <div id="leaderboard">
         <h2>Leaderboard</h2>
         <ul id="leaderboard-list"></ul>
     </div>
 
-    <!-- Music Controls -->
     <audio id="bg-music" autoplay loop>
         <source src="game-music.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+    <div id="lives">
+        <p>Lives: <span id="life-count">♥️♥️♥️</span></p>
+    </div>
+
+    <div id="music-controls">
+        <button onclick="toggleMusic()">⏪</button>
+        <span id="music-name">Game Music</span>
+        <button onclick="toggleMusic()">▶️</button>
+        <button onclick="toggleMusic()">⏩</button>
+    </div>
 
     <script src="game.js"></script>
 </body>
