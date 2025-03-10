@@ -9,155 +9,27 @@
 <body>
     <button id="backBtn" onclick="goBack()">🔙 Back</button>
     <h1>Food Catch Game</h1>
-    <canvas id="gameCanvas"></canvas>
-    
+
+    <div id="game-container">
+        <div id="player">🤤</div>
+    </div>
+
+    <!-- Game Movement Controls -->
+    <button id="leftBtn">◀️</button>
+    <button id="rightBtn">▶️</button>
+
+    <!-- Leaderboard -->
     <div id="leaderboard">
         <h2>Leaderboard</h2>
         <ul id="leaderboard-list"></ul>
     </div>
 
-    <!-- Movement Controls -->
-    <div id="movement-controls">
-        <button id="moveLeftBtn">◀️</button>
-        <button id="moveRightBtn">▶️</button>
-    </div>
-
+    <!-- Music Controls -->
     <audio id="bg-music" autoplay loop>
         <source src="game-music.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
     <script src="game.js"></script>
-
-    <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-
-        const playerWidth = 50;  // Width of the player
-        const playerHeight = 50; // Height of the player
-        const gameSpeed = 5;     // Speed of the falling objects
-
-        let playerX = canvas.width / 2 - playerWidth / 2;
-        let playerY = canvas.height - playerHeight - 10;
-        let moveLeft = false;
-        let moveRight = false;
-        let score = 0;
-        let lives = 3;
-
-        // Falling objects (e.g., food items and bad items)
-        let fallingObjects = [];
-
-        // Game setup
-        canvas.width = 800;
-        canvas.height = 600;
-
-        // Player
-        function drawPlayer() {
-            ctx.fillStyle = "#00f";
-            ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
-        }
-
-        // Falling objects
-        function drawFallingObjects() {
-            for (let i = 0; i < fallingObjects.length; i++) {
-                const obj = fallingObjects[i];
-                ctx.fillStyle = obj.type === "food" ? "#0f0" : "#f00"; // Green for food, red for bad items
-                ctx.fillRect(obj.x, obj.y, 30, 30);
-
-                // Move the falling objects down
-                obj.y += gameSpeed;
-
-                // Check for collision with player
-                if (obj.y + 30 > playerY && obj.x + 30 > playerX && obj.x < playerX + playerWidth) {
-                    if (obj.type === "food") {
-                        score += 10; // Increase score when catching food
-                    } else {
-                        lives -= 1; // Decrease lives when hitting bad items
-                    }
-                    fallingObjects.splice(i, 1); // Remove object after collision
-                    i--; // Adjust index due to removal
-                }
-
-                // Remove object if it falls past the screen
-                if (obj.y > canvas.height) {
-                    fallingObjects.splice(i, 1);
-                    i--;
-                }
-            }
-        }
-
-        // Create new falling objects randomly
-        function createFallingObjects() {
-            if (Math.random() < 0.02) { // 2% chance to create an object each frame
-                const x = Math.random() * (canvas.width - 30);
-                const type = Math.random() > 0.5 ? "food" : "bad"; // 50% chance for food or bad item
-                fallingObjects.push({ x, y: 0, type });
-            }
-        }
-
-        // Draw everything
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-
-            createFallingObjects();
-            drawPlayer();
-            drawFallingObjects();
-
-            // Display score and lives
-            ctx.font = "20px Arial";
-            ctx.fillStyle = "#fff";
-            ctx.fillText(`Score: ${score}`, 10, 30);
-            ctx.fillText(`Lives: ${lives}`, 10, 60);
-
-            // Game over condition
-            if (lives <= 0) {
-                ctx.fillText("Game Over", canvas.width / 2 - 60, canvas.height / 2);
-                return;
-            }
-
-            requestAnimationFrame(draw); // Request next frame
-        }
-
-        // Player movement
-        function movePlayer() {
-            if (moveLeft && playerX > 0) {
-                playerX -= 5; // Move left
-            }
-            if (moveRight && playerX + playerWidth < canvas.width) {
-                playerX += 5; // Move right
-            }
-        }
-
-        // Event listeners for buttons
-        document.getElementById("moveLeftBtn").addEventListener("click", function() {
-            moveLeft = true;
-        });
-
-        document.getElementById("moveRightBtn").addEventListener("click", function() {
-            moveRight = true;
-        });
-
-        // Stop player movement when button is released
-        document.getElementById("moveLeftBtn").addEventListener("mouseup", function() {
-            moveLeft = false;
-        });
-
-        document.getElementById("moveRightBtn").addEventListener("mouseup", function() {
-            moveRight = false;
-        });
-
-        // Game loop
-        function gameLoop() {
-            movePlayer();
-            draw();
-        }
-
-        setInterval(gameLoop, 1000 / 60); // 60 FPS
-
-        // Back button function
-        function goBack() {
-            window.history.back();
-        }
-    </script>
 </body>
 </html>
