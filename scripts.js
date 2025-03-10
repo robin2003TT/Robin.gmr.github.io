@@ -92,3 +92,44 @@ document.addEventListener("DOMContentLoaded", function () {
         return colors[Math.floor(Math.random() * colors.length)];
     }
 });
+function launchConfetti() {
+    const confettiCount = 100;
+    const confettiContainer = document.createElement("div");
+    confettiContainer.style.position = "fixed";
+    confettiContainer.style.top = "0";
+    confettiContainer.style.left = "0";
+    confettiContainer.style.width = "100%";
+    confettiContainer.style.height = "100%";
+    confettiContainer.style.pointerEvents = "none";
+    confettiContainer.style.overflow = "hidden";
+    document.body.appendChild(confettiContainer);
+
+    for (let i = 0; i < confettiCount; i++) {
+        let confetti = document.createElement("div");
+        confetti.style.position = "absolute";
+        confetti.style.width = "10px";
+        confetti.style.height = "10px";
+        confetti.style.backgroundColor = randomColor();
+        confetti.style.top = `${Math.random() * window.innerHeight}px`;
+        confetti.style.left = `${Math.random() * window.innerWidth}px`;
+        confetti.style.opacity = Math.random();
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        confetti.style.transition = "top 2s ease-out, opacity 2s";
+        confettiContainer.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.style.top = `${window.innerHeight + 50}px`;
+            confetti.style.opacity = "0";
+        }, 10);
+    }
+
+    setTimeout(() => {
+        confettiContainer.remove();
+    }, 2000);
+}
+
+// ✅ Generates random colors for confetti
+function randomColor() {
+    let colors = ["#ff0000", "#ff7300", "#ffeb00", "#00ff26", "#00e1ff", "#7d00ff", "#ff00b3", "#00ff99", "#ff007f"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
